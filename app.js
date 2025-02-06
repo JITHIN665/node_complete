@@ -1,29 +1,21 @@
 const http = require('http');
 
 const express= require('express');
+
+const adminRoutes=require('./routes/admin')
+const shopRoutes=require('./routes/shop')
+
 const bodyParser= require("body-parser")
-
-
 const app=express();
 
 
 app.use(bodyParser.urlencoded({extended:false}));
 
-app.use('/add-product',(req, res, next)=>{
-    console.log("in another middleware");
-    res.send('<form action="/product" method="POST"><input type="text" name="title"><button type="submit">Add Product</button></form>')
-});
+app.use(adminRoutes);
+
+app.use(shopRoutes);
 
 
-app.post('/product',(req, res, next)=>{
-    console.log(req.body);
-    console.log(req.body);
-    res.redirect('/')
-});
 
-app.use('/',(req, res, next)=>{
-    console.log("in another middleware");
-    res.send('<h1>Hello From Express!</h1>')
-});
 
 app.listen(3000);
