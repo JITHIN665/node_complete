@@ -1,0 +1,9 @@
+/node_modules
+.env
+uploads/
+dump.rdb
+/minio
+yarn-error.log
+settings.json
+/.vscode
+public/bulk-import
