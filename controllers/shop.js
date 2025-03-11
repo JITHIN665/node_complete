@@ -43,21 +43,19 @@ exports.getIndex = (req, res, next) => {
     });
 };
 
-exports.getCart = async (req, res, next) => {
-  try {
-    await req.user.populate("cart.items.productId");
-
-    const products = req.user.cart.items;
-
-    res.render("shop/cart", {
-      path: "/cart",
-      pageTitle: "Your Cart",
-      products: products,
-    });
-  } catch (err) {
-    console.log(err);
-    next(err);
-  }
+exports.getCart = (req, res, next) => {
+  req.user
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then(user => {
+      const products = user.cart.items;
+      res.render('shop/cart', {
+        path: '/cart',
+        pageTitle: 'Your Cart',
+        products: products
+      });
+    })
+    .catch(err => console.log(err));
 };
 
 exports.postCart = (req, res, next) => {
@@ -82,36 +80,30 @@ exports.postCartDeleteProduct = (req, res, next) => {
     .catch(err => console.log(err));
 };
 
-exports.postOrder = async (req, res, next) => {
-  try {
-    if (!req.user) {
-      throw new Error("User not found in request.");
-    }
-
-    // Use `await` instead of `.then()`
-    await req.user.populate("cart.items.productId");
-
-    // Extract products from cart
-    const products = req.user.cart.items.map((i) => {
-      return { quantity: i.quantity, product: { ...i.productId._doc } };
-    });
-
-    // Create order
-    const order = new Order({
-      user: {
-        email: req.user.email,
-        userId: req.user
-      },
-      products: products
-    });
-
-    await order.save();
-    await req.user.clearCart(); 
-    res.redirect("/orders"); 
-  } catch (err) {
-    console.error("Error in postOrder:", err);
-    res.redirect("/cart");
-  }
+exports.postOrder = (req, res, next) => {
+  req.user
+    .populate('cart.items.productId')
+    .execPopulate()
+    .then(user => {
+      const products = user.cart.items.map(i => {
+        return { quantity: i.quantity, product: { ...i.productId._doc } };
+      });
+      const order = new Order({
+        user: {
+          email: req.user.email,
+          userId: req.user
+        },
+        products: products
+      });
+      return order.save();
+    })
+    .then(result => {
+      return req.user.clearCart();
+    })
+    .then(() => {
+      res.redirect('/orders');
+    })
+    .catch(err => console.log(err));
 };
 
 exports.getOrders = (req, res, next) => {
