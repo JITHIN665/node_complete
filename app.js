@@ -10,7 +10,7 @@ const errorController = require('./controllers/error');
 const User = require('./models/user');
 
 const MONGODB_URI =
-  'mongodb+srv://jithinraja4:Jithin%4099@cluster0.fpop2.mongodb.net/shops?retryWrites=true&w=majority&appName=Cluster0';
+  'mongodb+srv://jithinraja4:Jithin%4099@cluster0.fpop2.mongodb.net/shops';
 
 const app = express();
 const store = new MongoDBStore({
@@ -55,20 +55,8 @@ app.use(authRoutes);
 app.use(errorController.get404);
 
 mongoose
-  .connect(MONGODB_URI)
+  .connect(MONGODB_URI,{ useNewUrlParser: true ,useUnifiedTopology: true } )
   .then(result => {
-    User.findOne().then(user => {
-      if (!user) {
-        const user = new User({
-          name: 'Max',
-          email: 'max@test.com',
-          cart: {
-            items: []
-          }
-        });
-        user.save();
-      }
-    });
     app.listen(3000);
   })
   .catch(err => {
