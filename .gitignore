@@ -7,3 +7,4 @@ yarn-error.log
 settings.json
 /.vscode
 public/bulk-import
+controllers/auth.js
