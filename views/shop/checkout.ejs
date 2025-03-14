@@ -21,7 +21,7 @@
                 <button id="order-btn" class="btn">ORDER</button>
                 <script src="https://js.stripe.com/v3/"></script>
                 <script>
-                    var stripe = Stripe('pk_test_51PQQBj09Hgg4pRb4tPnyKqf0ibCIiRNiEvg2JE8g3G0hfhbxEaAci9mHSknU3eFDk7a32psCUDO7sTJgYxTfmGtQ00W1VMJoNp');
+                    var stripe = Stripe('Use private key stripe');
                     var orderBtn = document.getElementById('order-btn');
                     orderBtn.addEventListener('click', function() {
                         stripe.redirectToCheckout({
