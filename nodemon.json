@@ -1,0 +1,11 @@
+{
+    "env": {
+        "MONGO_USER": "jithinraja4",
+        "MONGO_PASSWORD": "",
+        "MONGO_DEFAULT_DATABASE": "shops",
+        "STRIPE_KEY": "sk_test_T8OE02SHDZWLwk4TYtrWlsat",
+        "STRIPE_PRIVATE_KEY":"",
+        "MAIL_TRAP_USER":"80eeedee32969e",
+        "MAIL_TRAP_PASS":"ef8a7a158e8c44"
+    }
+}
